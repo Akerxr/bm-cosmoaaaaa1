@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم - BM cosmetics 🎀</title>
+<link rel="icon" type="image/png" href="https://i.postimg.cc/Vvv9H1mc/IMG-1048.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--primary-pink:#ffb6c1;--deep-pink:#d81b60;--gold:#c5a059;--light-gold:#f4e8c1;--dark-bg:#fff5f8;--text-color:#333;--white:#fff;--shadow:0 8px 25px rgba(197,160,89,.12)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{background:var(--dark-bg);color:var(--text-color);padding-bottom:40px}
+#login-screen{position:fixed;inset:0;z-index:99999;background:var(--dark-bg);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;padding:30px;border-radius:20px;box-shadow:var(--shadow);width:100%;max-width:400px;text-align:center}
+.login-card img{width:90px;height:90px;object-fit:contain;margin-bottom:15px}
+.login-card h2{color:var(--deep-pink);font-size:22px;font-weight:900;margin-bottom:20px}
+.login-card input{width:100%;padding:12px 15px;border:1px solid #ead9df;border-radius:10px;font-size:14px;outline:none;margin-bottom:15px;text-align:center}
+.login-card button{width:100%;padding:12px;border:0;background:var(--deep-pink);color:#fff;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer}
+header{background:#fff;padding:15px 25px;border-bottom:1px solid rgba(197,160,89,.2);display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--deep-pink);font-size:18px}
+.brand img{width:40px;height:40px}
+.logout-btn{background:#ffe6ee;color:var(--deep-pink);border:0;padding:8px 15px;border-radius:8px;font-weight:700;cursor:pointer}
+.container{max-width:1100px;margin:30px auto;padding:0 15px}
+.form-card{background:#fff;border-radius:18px;padding:25px;box-shadow:var(--shadow);margin-bottom:35px;position:relative}
+.form-card h3,.products-list-head h3{color:var(--deep-pink);font-size:20px;font-weight:900;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+@media(max-width:768px){.form-grid{grid-template-columns:1fr}}
+.form-group{margin-bottom:15px}.form-group.full{grid-column:1/-1}
+.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#555}
+.form-group input,.form-group select{width:100%;padding:11px 13px;border:1px solid #ead9df;border-radius:9px;outline:none;font-size:14px;background:#fffafb}
+.image-input-wrap{display:flex;gap:10px;align-items:center}
+.upload-btn{background:var(--light-gold);color:#6b5221;border:0;padding:11px 16px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.upload-status{font-size:12px;color:#2e7d32;font-weight:700;margin-top:5px}
+.submit-btn{width:100%;padding:13px;border:0;background:var(--deep-pink);color:#fff;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:disabled{background:#ccc;cursor:not-allowed}
+.products-list-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.products-list-head h3{margin:0}
+.table-responsive{background:#fff;border-radius:15px;box-shadow:var(--shadow);overflow-x:auto}
+table{width:100%;border-collapse:collapse;text-align:right;min-width:600px}
+th,td{padding:14px 18px;border-bottom:1px solid #eee;font-size:14px}
+th{background:#fff1f5;color:var(--deep-pink);font-weight:800}
+.prod-img-td{width:50px;height:50px;object-fit:contain;border-radius:6px;background:#fafafa}
+.action-btn{border:0;width:32px;height:32px;border-radius:6px;cursor:pointer;margin-left:5px}
+.edit-btn{background:#e3f2fd;color:#1976d2}.delete-btn{background:#ffebee;color:#c62828}
+.loading-spinner{display:inline-block;animation:spin 1s infinite linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){header{padding:12px}.form-card{padding:16px}.image-input-wrap{flex-wrap:wrap}.image-input-wrap input{min-width:0}}
+</style>
+</head>
+<body>
+<div id="login-screen"><div class="login-card">
+<img src="https://i.postimg.cc/Vvv9H1mc/IMG-1048.png" alt="BM Cosmetics">
+<h2>لوحة التحكم 🎀</h2>
+<input type="password" id="admin-pass" placeholder="أدخل كلمة السر">
+<button onclick="login()">دخول</button>
+</div></div>
+<header>
+<div class="brand"><img src="https://i.postimg.cc/Vvv9H1mc/IMG-1048.png" alt="BM Cosmetics"><span>BM Admin Panel 🎀</span></div>
+<button class="logout-btn" onclick="logout()">خروج</button>
+</header>
+<div class="container">
+<div class="form-card">
+<h3 id="form-title"><i class="fa-solid fa-plus-circle"></i> إضافة منتج جديد</h3>
+<input type="hidden" id="edit-product-id">
+<div class="form-grid">
+<div class="form-group full"><label>اسم المنتج</label><input type="text" id="prod-name" placeholder="اكتب اسم المنتج"></div>
+<div class="form-group"><label>القسم</label><select id="prod-category">
+<option value="Skin Care">Skin Care</option><option value="Hair Care">Hair Care</option><option value="Body Care">Body Care</option><option value="Kids">Kids</option><option value="Korean">Korean</option>
+</select></div>
+<div class="form-group"><label>السعر الحالي (EGP)</label><input type="number" id="prod-new-price" min="0" step="0.01" placeholder="مثال: 250"></div>
+<div class="form-group"><label>السعر القديم (اختياري)</label><input type="number" id="prod-old-price" min="0" step="0.01" placeholder="مثال: 300"></div>
+<div class="form-group"><label>صورة المنتج (اختر من الجهاز أو ضع الرابط)</label>
+<div class="image-input-wrap"><input type="text" id="prod-image-url" placeholder="رابط الصورة أو مسارها...">
+<button class="upload-btn" type="button" onclick="document.getElementById('file-upload').click()"><i class="fa-solid fa-camera"></i> اختر صورة</button>
+<input type="file" id="file-upload" accept="image/*" style="display:none" onchange="compressAndConvertImage(this)"></div>
+<div id="upload-status" class="upload-status"></div></div>
+</div>
+<button class="submit-btn" id="save-btn" onclick="saveProduct()"><i class="fa-solid fa-floppy-disk"></i> حفظ المنتج والنشر</button>
+<button class="submit-btn" id="cancel-btn" onclick="resetForm()" style="background:#888;display:none;margin-top:8px">إلغاء التعديل</button>
+</div>
+<div class="products-list-head"><h3><i class="fa-solid fa-boxes-stacked"></i> منتجات Google Sheets</h3>
+<button class="upload-btn" onclick="loadProducts(true)"><i class="fa-solid fa-rotate"></i> تحديث</button></div>
+<div class="table-responsive"><table><thead><tr><th>الصورة</th><th>اسم المنتج</th><th>القسم</th><th>السعر الحالي</th><th>السعر القديم</th><th>إجراءات</th></tr></thead>
+<tbody id="products-tbody"><tr><td colspan="6" style="text-align:center;padding:25px;color:#888">جاري تحميل المنتجات...</td></tr></tbody></table></div>
+</div>
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbywmIh2tIAU-_eEB-O9epM0F3b8VXMvxvl-_h0gTRu1GX0jXyxR5FM3Fzk28i618mY7Pw/exec";
+const PASS="bdoor&menna";
+let loadedProductsList=[];
+const $=id=>document.getElementById(id);
+function login(){if($("admin-pass").value.trim()===PASS){sessionStorage.setItem("admin_auth","1");$("login-screen").style.display="none";loadProducts(true)}else alert("كلمة السر غير صحيحة!")}
+function logout(){sessionStorage.removeItem("admin_auth");location.reload()}
+if(sessionStorage.getItem("admin_auth")==="1"){$("login-screen").style.display="none";window.addEventListener("DOMContentLoaded",()=>loadProducts(true))}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function normalizeRows(data){if(Array.isArray(data))return data;if(data&&Array.isArray(data.products))return data.products;if(data&&Array.isArray(data.data))return data.data;return []}
+function compressAndConvertImage(input){
+ const file=input.files&&input.files[0];if(!file)return;
+ const status=$("upload-status");status.textContent="جاري معالجة وضغط الصورة...";status.style.color="#d81b60";
+ if(file.size>12*1024*1024){status.textContent="حجم الصورة كبير؛ اختر صورة أقل من 12MB أو استخدم رابط صورة.";status.style.color="#c62828";input.value="";return}
+ const reader=new FileReader();
+ reader.onerror=()=>{status.textContent="تعذر قراءة الصورة";status.style.color="#c62828"};
+ reader.onload=e=>{const img=new Image();img.onerror=()=>{status.textContent="صيغة الصورة غير مدعومة";status.style.color="#c62828"};
+ img.onload=()=>{const canvas=document.createElement("canvas");const max=800;let w=img.width,h=img.height;const scale=Math.min(1,max/Math.max(w,h));w=Math.round(w*scale);h=Math.round(h*scale);canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);
+ const dataUrl=canvas.toDataURL("image/jpeg",.78);
+ // تنبيه: Google Sheets يفرض حدًا لحجم الخلية؛ استخدم رابط صورة مستضاف إذا تجاوزت السعة.
+ if(dataUrl.length>45000){status.textContent="الصورة ما زالت كبيرة على حد خلية Google Sheets. استخدم رابط صورة مستضاف.";status.style.color="#c62828";return}
+ $("prod-image-url").value=dataUrl;status.textContent="✓ تمت معالجة الصورة";status.style.color="#2e7d32";
+ };img.src=e.target.result};reader.readAsDataURL(file)
+}
+async function fetchProducts(){const res=await fetch(API_URL,{method:"GET",cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);return normalizeRows(await res.json())}
+async function loadProducts(showLoading=false){
+ const tbody=$("products-tbody");if(showLoading)tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:25px;color:#888"><i class="fa-solid fa-spinner loading-spinner"></i> جاري التحميل...</td></tr>';
+ try{loadedProductsList=await fetchProducts();renderTable(loadedProductsList)}
+ catch(e){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:25px;color:red">فشل جلب المنتجات. تأكد من الاتصال وإعدادات Google Apps Script.</td></tr>';console.error(e)}
+}
+function renderTable(list){const tbody=$("products-tbody");tbody.innerHTML="";
+ if(!list.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:25px;color:#888">لا توجد منتجات مضافة في Google Sheets حتى الآن.</td></tr>';return}
+ list.forEach((p,idx)=>{const image=escapeHTML(p.image_url||p.imageUrl||p.image||"https://via.placeholder.com/50");
+ const name=escapeHTML(p.name||p.product_name||"");const cat=escapeHTML(p.category||"");const price=escapeHTML(p.new_price??p.newPrice??"");const old=escapeHTML(p.old_price??p.oldPrice??"");
+ const tr=document.createElement("tr");tr.innerHTML=`<td><img class="prod-img-td" src="${image}" onerror="this.src='https://via.placeholder.com/50'"></td><td><b>${name}</b></td><td>${cat}</td><td style="color:var(--deep-pink);font-weight:800">${price} EGP</td><td style="color:#999;text-decoration:line-through">${old?old+" EGP":"-"}</td><td><button class="action-btn edit-btn" data-edit="${idx}"><i class="fa-solid fa-pen"></i></button><button class="action-btn delete-btn" data-delete="${idx}"><i class="fa-solid fa-trash"></i></button></td>`;
+ tbody.appendChild(tr)});
+ tbody.querySelectorAll("[data-edit]").forEach(b=>b.addEventListener("click",()=>editProduct(Number(b.dataset.edit))));
+ tbody.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>deleteProduct(loadedProductsList[Number(b.dataset.delete)]?.id)))
+}
+function editProduct(idx){const p=loadedProductsList[idx];if(!p)return;
+ $("edit-product-id").value=p.id||"";$("prod-name").value=p.name||p.product_name||"";$("prod-category").value=p.category||"Skin Care";
+ $("prod-new-price").value=p.new_price??p.newPrice??"";$("prod-old-price").value=p.old_price??p.oldPrice??"";$("prod-image-url").value=p.image_url||p.imageUrl||p.image||"";
+ $("form-title").innerHTML='<i class="fa-solid fa-pen-to-square"></i> تعديل المنتج';$("cancel-btn").style.display="block";window.scrollTo({top:0,behavior:"smooth"})
+}
+function resetForm(){$("edit-product-id").value="";$("prod-name").value="";$("prod-category").value="Skin Care";$("prod-new-price").value="";$("prod-old-price").value="";$("prod-image-url").value="";$("upload-status").innerText="";$("file-upload").value="";$("form-title").innerHTML='<i class="fa-solid fa-plus-circle"></i> إضافة منتج جديد';$("cancel-btn").style.display="none"}
+function wait(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+async function verifyChange(action,id,name,price){
+ // no-cors لا يعيد response قابلًا للقراءة؛ نتحقق من النتيجة بقراءة الشيت بعد الإرسال.
+ for(let attempt=0;attempt<8;attempt++){await wait(1500);try{const rows=await fetchProducts();
+  const found=rows.find(p=>(id&&String(p.id)===String(id))||(!id&&String(p.name||p.product_name||"").trim().toLowerCase()===name.trim().toLowerCase()));
+  if(action==="delete"&&!rows.some(p=>String(p.id)===String(id)))return true;
+  if(action!=="delete"&&found&&String(found.new_price??found.newPrice??"")===String(price))return true;
+ }catch(e){}}
+ return false
+}
+async function postAction(formData){await fetch(API_URL,{method:"POST",mode:"no-cors",body:formData})}
+async function saveProduct(){
+ const id=$("edit-product-id").value;const name=$("prod-name").value.trim();const category=$("prod-category").value;
+ const newPrice=$("prod-new-price").value;const oldPrice=$("prod-old-price").value;const imageUrl=$("prod-image-url").value.trim();
+ if(!name||!newPrice||Number(newPrice)<0){alert("من فضلك أدخل اسم المنتج وسعرًا حاليًا صحيحًا!");return}
+ const btn=$("save-btn");btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner loading-spinner"></i> جاري الحفظ والتحقق...';
+ const data=new URLSearchParams();data.append("action",id?"update":"add");if(id)data.append("id",id);
+ data.append("name",name);data.append("category",category);data.append("new_price",newPrice);data.append("old_price",oldPrice);data.append("image_url",imageUrl);
+ try{await postAction(data);const ok=await verifyChange(id?"update":"add",id,name,newPrice);
+  if(ok){alert(id?"تم التحقق من تعديل المنتج في الشيت! 🎀":"تم التحقق من إضافة المنتج في الشيت! 🎀");resetForm();await loadProducts(true)}
+  else{alert("تم إرسال الطلب، لكن لم أستطع تأكيد ظهوره في قراءة الشيت. راجع Google Apps Script وصلاحيات النشر ثم حدّث القائمة.");await loadProducts(true)}
+ }catch(err){alert("تعذر إرسال الطلب. تأكد من الإنترنت وإعدادات Google Apps Script.");console.error(err)}
+ finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-floppy-disk"></i> حفظ المنتج والنشر'}
+}
+async function deleteProduct(id){if(!id){alert("لا يوجد معرّف لهذا المنتج؛ لم يتم إرسال الحذف.");return}
+ if(!confirm("هل أنت متأكد من حذف هذا المنتج من Google Sheets؟"))return;
+ const data=new URLSearchParams();data.append("action","delete");data.append("id",id);
+ try{await postAction(data);const ok=await verifyChange("delete",id,"","");
+  alert(ok?"تم التحقق من حذف المنتج!":"تم إرسال طلب الحذف، لكن لم أستطع تأكيد اختفائه من الشيت.");await loadProducts(true)
+ }catch(e){alert("فشل إرسال الحذف!");console.error(e)}
+}
+</script>
+</body>
+</html>
